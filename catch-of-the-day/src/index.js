@@ -7,3 +7,4 @@ import App from "./components/App";
 import "./css/style.css";
 
 render(<App />, document.querySelector("#main"));
+   
