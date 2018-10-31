@@ -12,15 +12,35 @@ class App extends React.Component {
     order: {}
   };
 
+  //  is invoked immediately after a component is mounted (inserted into the tree)
   componentDidMount() {
     //  firebase ref - to a piece of data in firebase db
     const { params } = this.props.match;
+
+    // first, reinstate our localStorage
+    const localStorageRef = localStorage.getItem(params.storeId);
+    localStorageRef
+      ? this.setState({
+          order: JSON.parse(localStorageRef)
+        })
+      : null;
+
     this.ref = base.syncState(`${params.storeId}/fishes`, {
       context: this,
       state: "fishes"
     });
   }
 
+  //  is invoked immediately after updating occurs. This method is not called for the initial render
+  componentDidUpdate() {
+    console.log(this.state.order);
+    localStorage.setItem(
+      this.props.match.params.storeId,
+      JSON.stringify(this.state.order)
+    );
+  }
+
+  //  is invoked immediately before a component is unmounted and destroyed
   componentWillUnmount() {
     base.removeBinding(this.ref);
   }
