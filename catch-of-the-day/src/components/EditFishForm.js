@@ -32,7 +32,7 @@ class EditFishForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="fish-edit">
         <input
           type="text"
           name="name"
