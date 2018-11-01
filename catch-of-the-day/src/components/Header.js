@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
+// stateless function
 const Header = props => (
   <header className="top">
     <h1>
@@ -15,6 +17,11 @@ const Header = props => (
     </h3>
   </header>
 );
+
+Header.PropTypes = {
+  tagline: PropTypes.string.isRequired
+  // tagline: "Fresh Seafood Market"  // default prop value
+};
 
 // class Header extends React.Component {
 //   render() {

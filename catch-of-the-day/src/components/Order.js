@@ -1,11 +1,26 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { formatPrice } from "../helpers";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 class Order extends React.Component {
+  static propTypes = {
+    fishes: PropTypes.object,
+    order: PropTypes.object,
+    removeFromOrder: PropTypes.func
+  };
+
   renderOrder = key => {
     const fish = this.props.fishes[key];
     const count = this.props.order[key];
     const isAvailable = fish && fish.status === "available";
+    const transitionOptions = {
+      classNames: "order",
+      key: { key },
+      timeout: { enter: 250, exit: 250 }
+    };
+
     // make sure the fish is loaded before we continue
     if (!fish) return null;
 
@@ -18,14 +33,23 @@ class Order extends React.Component {
     }
 
     return (
-      <li key={key}>
-        {count} lbs {fish.name}
-        {formatPrice(count * fish.price)}
-        🐟 {key}
-        <button onClick={() => this.props.removeFromOrder(key)}>
-          &times;{" "}
-        </button>
-      </li>
+      <CSSTransition {...transitionOptions}>
+        <li key={key}>
+          <span>
+            <TransitionGroup component="span" className="count">
+              <CSSTransition {...transitionOptions}>
+                <span> {count} </span>
+              </CSSTransition>
+            </TransitionGroup>
+            lbs {fish.name}
+            {formatPrice(count * fish.price)}
+            🐟 {key}
+            <button onClick={() => this.props.removeFromOrder(key)}>
+              &times;{" "}
+            </button>
+          </span>
+        </li>
+      </CSSTransition>
     );
   };
 
@@ -47,10 +71,12 @@ class Order extends React.Component {
     return (
       <div className="order-wrap">
         <h2>Order</h2>
-        <ul className="order">{orderIds.map(this.renderOrder)}</ul>
+        <TransitionGroup component="ul" className="order">
+          {orderIds.map(this.renderOrder)}
+        </TransitionGroup>
 
         <div className="total">
-          <strong>Total: {formatPrice(total)}</strong>
+          Total: <strong>{formatPrice(total)}</strong>
         </div>
       </div>
     );
