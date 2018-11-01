@@ -5,7 +5,7 @@ import AddFishForm from "./AddFishForm";
 import EditFishForm from "./EditFishForm";
 class Inventory extends React.Component {
   static propTypes = {
-    fishes: PropTypes.array,
+    fishes: PropTypes.object,
     addFish: PropTypes.func,
     updateFish: PropTypes.func,
     deleteFish: PropTypes.func,

@@ -16,7 +16,7 @@ class EditFishForm extends React.Component {
 
   handleChange = e => {
     const element = e.currentTarget;
-    const name = element.name;
+    // const name = element.name;
 
     //  update that fish
     //  1.   Take a copy of the current fish
